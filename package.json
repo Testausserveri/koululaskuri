@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/raikasdev/aamulaskuri/issues"
   },
-  "homepage": "https://github.com/raikasdev/aamulaskuri#readme"
+  "homepage": "https://github.com/raikasdev/aamulaskuri#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
 }
