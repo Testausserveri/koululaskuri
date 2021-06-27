@@ -47,24 +47,24 @@ Object.keys(config.subscribers).forEach((entry) => {
   if(
     days["347"].length === 0
     && days["255"].length === 0 
-    && days["147"].length === 0
+    && days["165"].length === 0
   ) {
     return;
   }
   const message347 = getMessage(startDate, 347, `${days["347"].join(' ')}\n**Palvelusaika 347**\n`);
   const message255 = getMessage(startDate, 255, `${days["255"].join(' ')}\n**Palvelusaika 255**\n`);
-  const message147 = getMessage(startDate, 147, `${days["147"].join(' ')}\n**Palvelusaika 147**\n`);
+  const message165 = getMessage(startDate, 165, `${days["165"].join(' ')}\n**Palvelusaika 165**\n`);
   if (message347 === '') {
     return;
   }
   const embed = new Discord.MessageEmbed()
   .setTitle(`Aamulaskuri > ${entry}`)
   .setDescription(
-    `${message347}\n${message255}\n${message147}`
+    `${message347}\n${message255}\n${message165}`
   )
   .setColor('#36771c')
   .setURL('https://www.youtube.com/watch?v=Bc0IpLN-wGE')
-  embeds[`${days["347"].join(' ')} ${days["255"].join(' ')} ${days["147"].join(' ')}`] = embed;
+  embeds[`${days["347"].join(' ')} ${days["255"].join(' ')} ${days["165"].join(' ')}`] = embed;
 })
 // Send message
 
