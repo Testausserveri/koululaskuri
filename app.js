@@ -1,8 +1,9 @@
 /* 
-Testausserverin #satunnaiset-aamulaskuri.
+Testausserverin #satunnaiset-koululaskuri.
 */
 
 process.env.TZ = 'Europe/Helsinki'
+
 // Set timezone for the process
 
 const Discord = require('discord.js')
@@ -16,77 +17,124 @@ const diff = (to, from = Date.now()) => {
   return Math.ceil((to.getTime() - from)/(24 * 60 * 60 * 1000))
 }
 
-const getMessage = (startDate, serveDays, msg = "") => {
-  const serveTime = 24 * 60 * 60 * 1000 * serveDays;
-  const trainDay = Math.ceil(serveDays / 2); // Aamujuna kääntyy
-  const endDate = new Date(startDate.getTime() + serveTime);
-  if(diff(startDate) > 0) {
-    msg += `Palveluksen alkuun ${diff(startDate)} aamua.`
-  } else if(diff(startDate) == 0) {
-    msg += `TJ: Palvelus alkaa tänään. Aamukasassa ${diff(endDate)} aamua.`;
-  } else if(diff(endDate) === trainDay) {
-    msg += `TJ: Aamujuna kääntyy. Aamuja jäljellä ${diff(endDate)}`
-  } else if (diff(endDate) > 0) {
-    msg += `TJ: Aamuja jäljellä ${diff(endDate)}.`;
-  } else if (diff(endDate) == 0) {
-    msg += `Reservin aurinko paistaa :sun_with_face:`;
+const getMessage = (data, msg = "") => {
+  const autumnStart = data[0]
+  const autumnEnd = data[1]
+  const springStart = data[2]
+  const springEnd = data[3]
+  const breaks = data[4]
+
+  const toAutumnStart = diff(autumnStart);
+  const toAutumnEnd = diff(autumnEnd);
+  const toSpringStart = diff(springStart);
+  const toSpringEnd = diff(springEnd);
+
+  let breakk = null;
+  breaks.forEach((b) => {
+    if(!breakk) {
+      if (b.daysTo > 0) {
+        breakk = b;
+      }
+      return;
+    }
+    if (b.daysTo < 0) {
+      return;
+    }
+    if (b.daysTo < breakk) {
+      breakk = b;
+    }
+  })
+
+  const breakMessage = `Seuraava loma on ${breakk.name}, johon on ${breakk.daysTo} päivää`;
+
+  msg += '||'
+
+  let currentBreak = null;
+  breaks.forEach((b) => {
+    if (currentBreak) {
+      return;
+    }
+    if (b.daysTo <= 0 && b.daysToEnd >= 0) {
+      currentBreak = b;
+    }
+  })
+  if (currentBreak) {
+    msg += `Nyt on loma "${currentBreak.name}". Lomaa jäljellä ${currentBreak.daysToEnd} päivää`
+  } else if(toAutumnStart > 0) {
+    if (data[5]) return '';
+    msg += data[5] ? `` : `Kesälomaa jäljellä ${toAutumnStart} päivää, mee nauttimaan saatana`;
+  } else if(toAutumnStart == 0) {
+    msg += `Lukuvuosi alkaa tänään. ${toAutumnEnd} syyslukukauden päättymiseen, ${toSpringEnd} päivää lukuvuoden päättymiseen.`;
+  } else if (toAutumnEnd > 0) {
+    msg += `Syyslukukautta jäljellä ${toAutumnEnd} päivää ja ${toSpringEnd} lukuvuoden päättymiseen.`;
+  } else if (toAutumnEnd == 0) {
+    msg += `Syyslukukausi loppuu tänään. Kevätlukukauden alkuun ${toSpringStart} päivää.`;
+  } else if (toSpringStart > 0) {
+    msg += `Kevätlukukauden alkuun ${toSpringStart} päivää.`;
+  } else if (toSpringStart == 0) {
+    msg += `Kevätlukukausi alkaa tänään. Kevätlukukauden loppuun ${toSpringEnd} päivää.`;
+  } else if (toSpringEnd > 0) {
+    msg += `Kevätlukukautta jäljellä ${toSpringEnd} päivää.`;
+  } else if (toSpringEnd == 0) {
+    msg += `Kesäloma alkaa! :sun_with_face:`;
   } else {
-    return ''; // Reservin aurinko paistaa!
+    return ''; // Kesäloma!
   }
-  const percentage = diff(startDate) > 0 ? 0 : ((serveDays-diff(endDate))*100)/serveDays;
-  msg += `\n${percentage.toFixed(1)}% palvelusta käyty (${diff(startDate)>0?'0':serveDays-diff(endDate)} / ${serveDays})`;
+  msg += `${breakk ? '\n' + breakMessage + '\n': ''}`
+  msg += '||'
   return msg;
 }  
 
 // 1 saapumiserä = embed
-let embeds = {};
 
+const pings = [];
+const messages = []
 Object.keys(config.subscribers).forEach((entry) => {
-  const startDate = new Date(config.entry[entry]);
-  const days = config.subscribers[entry];
-  if(
-    days["347"].length === 0
-    && days["255"].length === 0 
-    && days["165"].length === 0
-  ) {
+  console.log('Calculating user ' + entry)
+  const user = config.subscribers[entry];
+  const autumnStart = new Date(user.autumnStart);
+  const autumnEnd = new Date(user.autumnEnd);
+  const springStart = new Date(user.springStart);
+  const springEnd = new Date(user.springEnd);
+  const breaks = []
+  user.breaks.forEach((b) => {
+    breaks.push({
+      name: b.name,
+      start: new Date(b.start),
+      end: new Date(b.end),
+      daysTo: diff(new Date(b.start)),
+      daysToEnd: diff(new Date(b.end))
+    })
+  });
+
+  const message = getMessage([autumnStart, autumnEnd, springStart, springEnd, breaks, user.hideOnSummerVacation], `${entry}\n`);
+  if (message === '') {
     return;
   }
-  const message347 = getMessage(startDate, 347, `${days["347"].join(' ')}\n**Palvelusaika 347**\n`);
-  const message255 = getMessage(startDate, 255, `${days["255"].join(' ')}\n**Palvelusaika 255**\n`);
-  const message165 = getMessage(startDate, 165, `${days["165"].join(' ')}\n**Palvelusaika 165**\n`);
-  if (message347 === '') {
-    return;
-  }
-  const embed = new Discord.MessageEmbed()
-  .setTitle(`Aamulaskuri > ${entry}`)
-  .setDescription(
-    `${message347}\n${message255}\n${message165}`
-  )
-  .setColor('#36771c')
-  .setURL('https://www.youtube.com/watch?v=Bc0IpLN-wGE')
-  embeds[`${days["347"].join(' ')} ${days["255"].join(' ')} ${days["165"].join(' ')}`] = embed;
+  pings.push(entry);
+  messages.push(`${message}`);
 })
+
+if (pings.length === 0) {
+  console.log('No recipients')
+  webhook.destroy();
+  return;
+}
 // Send message
 
-const promises = [];
-
-const sendEmbed = async (message, embed) => {
-  await webhook.send(
-    message,
-    {
-      username: 'Inttilaskuri',
-      embeds: [embed],
-      avatarURL: 'https://www.tuntsa.fi/kauppa/wp-content/uploads/2018/02/maastokangas_malli-1.jpg',
-    }
+const embed = new Discord.MessageEmbed()
+  .setTitle(`Koululaskuri`)
+  .setDescription(
+    `${messages.join('\n')}`
   )
-  return true;
-}
+  .setColor('#96227d')
+  .setURL('https://www.youtube.com/watch?v=b5FiqQ_VVKo')
 
-Object.keys(embeds).forEach((pings) => {
-  const embed = embeds[pings];
-  promises.push(
-    sendEmbed(pings, embed)
-  )
-})
-
-Promise.all(promises).then(()=>webhook.destroy());
+webhook.send(
+  pings.join(' '),
+  {
+    username: 'Koululaskuri',
+    embeds: [embed],
+    avatarURL: 'https://media.discordapp.net/attachments/710903188018167930/859162126131003462/school.jpg',
+  }
+).then(()=>webhook.destroy());
