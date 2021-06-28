@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Send aamut
+name: Send kouluinfo
 
 on:
   schedule:
@@ -11,9 +11,9 @@ on:
     inputs:
       name:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Send aamut'
+        description: 'Send kouluinfo'
         # Default value if no value is explicitly provided
-        default: 'Send aamut'
+        default: 'Send kouluinfo'
         # Input has to be provided for the workflow to run
         required: true
 # Summer time: 10:00
