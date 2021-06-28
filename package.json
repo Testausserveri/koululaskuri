@@ -1,14 +1,14 @@
 {
-  "name": "aamulaskuri",
+  "name": "koululaskuri",
   "version": "1.0.0",
-  "description": "Ilmoittaa aamujen määrän Discordiin",
+  "description": "Ilmoittaa koulupäivien määrän Discordiin",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/raikasdev/aamulaskuri.git"
+    "url": "https://github.com/raikasdev/koululaskuri.git"
   },
   "keywords": [
     "intti"
@@ -16,9 +16,9 @@
   "author": "raikasdev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/raikasdev/aamulaskuri/issues"
+    "url": "https://github.com/raikasdev/koululaskuri/issues"
   },
-  "homepage": "https://github.com/raikasdev/aamulaskuri#readme",
+  "homepage": "https://github.com/raikasdev/koululaskuri#readme",
   "dependencies": {
     "discord.js": "^12.5.3"
   }
