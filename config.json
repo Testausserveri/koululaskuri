@@ -1,7 +1,7 @@
 {
   "subscribers": {
     "<@250662753541423115>": {
-      "hideOnSummerVacation": true,
+      "hideOnSummerVacation": false,
       "autumnStart": "2021-08-11",
       "autumnEnd": "2021-12-22",
       "springStart": "2022-01-10",
