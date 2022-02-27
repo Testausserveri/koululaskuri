@@ -31,6 +31,43 @@
         "start": "2022-05-26",
         "end": "2022-05-26"
       }]
+    },
+    "<@371362063273951232>": {
+      "hideOnSummerVacation": false,
+      "autumnStart": "2021-08-10",
+      "autumnEnd": "2021-12-21",
+      "springStart": "2022-01-10",
+      "springEnd": "2022-06-04",
+      "breaks": [{
+        "name": "Syysloma",
+        "start": "2021-10-18",
+        "end": "2021-10-22"
+      },
+      {
+        "name": "Itsenäisyyspäivä",
+        "start": "2021-12-06",
+        "end": "2021-12-06"
+      },
+      {
+        "name": "Talviloma",
+        "start": "2022-02-21",
+        "end": "2022-02-25"
+      },
+      {
+        "name": "Pääsiäinen",
+        "start": "2022-04-15",
+        "end": "2022-04-18"
+      },
+      {
+        "name": "Helatorstai",
+        "start": "2022-05-26",
+        "end": "2022-05-26"
+      },
+      {
+        "name": "Extra päivä",
+        "start": "2022-03-26",
+        "end": "2022-03-26"
+      }]
     }
   }
 }
