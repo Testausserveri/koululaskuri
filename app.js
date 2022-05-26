@@ -44,7 +44,7 @@ const getMessage = (data, msg = "") => {
       breakk = b;
     }
   })
-  if (breakk == null) breakk = {name: 'Kesäloma!', daysTo: toSpringEnd }
+  if (breakk == null) breakk = {name: 'Kesäloma', daysTo: toSpringEnd }
   const breakMessage = `Seuraava loma on ${breakk.name}, johon on ${breakk.daysTo} päivää`;
 
   msg += '||'
