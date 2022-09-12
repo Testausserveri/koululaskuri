@@ -32,41 +32,26 @@
         "end": "2022-05-26"
       }]
     },
-    "<@371362063273951232>": {
+    "<@371362063273951232>": { // @Midka aka @kymppi
       "hideOnSummerVacation": false,
-      "autumnStart": "2021-08-10",
-      "autumnEnd": "2021-12-21",
-      "springStart": "2022-01-10",
-      "springEnd": "2022-06-04",
+      "autumnStart": "2022-08-10",
+      "autumnEnd": "2022-12-21",
+      "springStart": "2023-01-09",
+      "springEnd": "2023-06-03",
       "breaks": [{
         "name": "Syysloma",
-        "start": "2021-10-18",
-        "end": "2021-10-22"
+        "start": "2022-10-17",
+        "end": "2022-10-21"
       },
       {
         "name": "Itsenäisyyspäivä",
-        "start": "2021-12-06",
-        "end": "2021-12-06"
+        "start": "2022-12-06",
+        "end": "2022-12-06"
       },
       {
         "name": "Talviloma",
-        "start": "2022-02-21",
-        "end": "2022-02-25"
-      },
-      {
-        "name": "Pääsiäinen",
-        "start": "2022-04-15",
-        "end": "2022-04-18"
-      },
-      {
-        "name": "Helatorstai",
-        "start": "2022-05-26",
-        "end": "2022-05-26"
-      },
-      {
-        "name": "Extra päivä",
-        "start": "2022-03-26",
-        "end": "2022-03-26"
+        "start": "2023-02-20",
+        "end": "2023-02-24"
       }]
     }
   }
